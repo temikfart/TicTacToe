@@ -9,14 +9,13 @@ import java.awt.event.WindowListener;
 public class StartWindow {
 
     private final Frame frame = new Frame("Tic Tac Toe");
-    private final MainMenuController mainMenuController = new MainMenuController(this);
 
     public StartWindow() {
         setupFrame();
     }
 
     public void show() {
-        showMainMenu();
+        TicTacToe.showMainMenu();
         frame.setVisible(true);
     }
 
@@ -56,13 +55,5 @@ public class StartWindow {
 
     public void end() {
         frame.dispose();
-    }
-
-    public void showMainMenu() {
-        mainMenuController.show();
-    }
-
-    public void hideMainMenu() {
-        mainMenuController.hide();
     }
 }

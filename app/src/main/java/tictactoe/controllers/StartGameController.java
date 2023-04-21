@@ -1,6 +1,7 @@
 package tictactoe.controllers;
 
 import tictactoe.StartWindow;
+import tictactoe.TicTacToe;
 import tictactoe.views.GameBoardView;
 
 public class StartGameController {
@@ -13,7 +14,7 @@ public class StartGameController {
     }
 
     public void startGame() {
-        startWindow.hideMainMenu();
+        TicTacToe.hideMainMenu();
         gameBoardView.setVisible(true);
     }
 }
