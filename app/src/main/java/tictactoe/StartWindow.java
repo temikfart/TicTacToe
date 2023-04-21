@@ -5,22 +5,12 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class StartWindow {
-
     private final Frame frame = new Frame("Tic Tac Toe");
+    private final int width = 500;
+    private final int height = 500;
 
     public StartWindow() {
-        setupFrame();
-    }
-
-    public void show() {
-        TicTacToe.showMainMenu();
-        frame.setVisible(true);
-    }
-
-    private void setupFrame() {
-        GridLayout gridLayout = new GridLayout(0, 1);
-        frame.setLayout(gridLayout);
-        frame.setSize(500, 500);
+        frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.addWindowListener(new WindowListener() {
             @Override
@@ -28,7 +18,7 @@ public class StartWindow {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                frame.dispose();
+                TicTacToe.exit();
             }
 
             @Override
@@ -48,15 +38,39 @@ public class StartWindow {
         });
     }
 
-    public void addComponent(Component component) {
-        frame.add(component);
-    }
-
-    public void removeComponent(Component component) {
-        frame.remove(component);
+    public void show() {
+        TicTacToe.showMainMenu();
+        frame.setVisible(true);
     }
 
     public void end() {
         frame.dispose();
+    }
+
+    public void addComponent(Component component) {
+        frame.add(component);
+        pack();
+    }
+
+    public void removeComponent(Component component) {
+        frame.remove(component);
+        pack();
+    }
+
+    public void setLayout(LayoutManager mgr) {
+        frame.setLayout(mgr);
+    }
+
+    public void pack() {
+        frame.pack();
+        frame.setSize(width, height);
+    }
+
+    public int width() {
+        return frame.getWidth();
+    }
+
+    public int height() {
+        return frame.getHeight();
     }
 }

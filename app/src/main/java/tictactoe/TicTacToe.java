@@ -1,14 +1,14 @@
 package tictactoe;
 
-import tictactoe.controllers.EndGameController;
 import tictactoe.controllers.MainMenuController;
-import tictactoe.controllers.StartGameController;
+import tictactoe.controllers.GameBoardController;
 
 public class TicTacToe {
+    public static final int BOARD_WIDTH = 3;
+    public static final int BOARD_HEIGHT = 3;
     private static final StartWindow startWindow = new StartWindow();
     private static final MainMenuController mainMenuController = new MainMenuController(startWindow);
-    private static final StartGameController startGameController = new StartGameController(startWindow);
-    private static final EndGameController endGameController = new EndGameController(startWindow);
+    private static final GameBoardController gameBoardController = new GameBoardController(startWindow);
 
     public static void main(String[] args) {
         TicTacToe ticTacToe = new TicTacToe();
@@ -28,10 +28,14 @@ public class TicTacToe {
     }
 
     public static void startGame() {
-        startGameController.startGame();
+        gameBoardController.startGame();
     }
 
     public static void endGame() {
-        endGameController.endGame();
+        gameBoardController.endGame();
+    }
+
+    public static void exit() {
+        startWindow.end();
     }
 }
