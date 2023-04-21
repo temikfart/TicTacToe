@@ -1,22 +1,27 @@
 package tictactoe;
 
+import tictactoe.controllers.MainMenuController;
+
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class StartWindow {
-    private final Frame frame = new Frame("Tic Tac Toe");
 
-    StartWindow() {
+    private final Frame frame = new Frame("Tic Tac Toe");
+    private final MainMenuController mainMenuController = new MainMenuController(this);
+
+    public StartWindow() {
         setupFrame();
     }
 
     public void show() {
+        showMainMenu();
         frame.setVisible(true);
     }
 
     private void setupFrame() {
-        frame.setLayout(new GridLayout());
+        frame.setLayout(null);
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
         frame.addWindowListener(new WindowListener() {
@@ -43,5 +48,21 @@ public class StartWindow {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
+    }
+
+    public void addComponent(Component component) {
+        frame.add(component);
+    }
+
+    public void end() {
+        frame.dispose();
+    }
+
+    public void showMainMenu() {
+        mainMenuController.show();
+    }
+
+    public void hideMainMenu() {
+        mainMenuController.hide();
     }
 }
