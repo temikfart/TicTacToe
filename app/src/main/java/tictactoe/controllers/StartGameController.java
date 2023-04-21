@@ -15,6 +15,6 @@ public class StartGameController {
 
     public void startGame() {
         TicTacToe.hideMainMenu();
-        gameBoardView.setVisible(true);
+        gameBoardView.addComponents();
     }
 }

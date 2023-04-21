@@ -1,7 +1,5 @@
 package tictactoe;
 
-import tictactoe.controllers.MainMenuController;
-
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -20,7 +18,8 @@ public class StartWindow {
     }
 
     private void setupFrame() {
-        frame.setLayout(null);
+        GridLayout gridLayout = new GridLayout(0, 1);
+        frame.setLayout(gridLayout);
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
         frame.addWindowListener(new WindowListener() {
@@ -51,6 +50,10 @@ public class StartWindow {
 
     public void addComponent(Component component) {
         frame.add(component);
+    }
+
+    public void removeComponent(Component component) {
+        frame.remove(component);
     }
 
     public void end() {

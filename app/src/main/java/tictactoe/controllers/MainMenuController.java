@@ -14,10 +14,10 @@ public class MainMenuController {
     }
 
     public void show() {
-        mainMenuView.setVisible(true);
+        mainMenuView.addComponents();
     }
 
     public void hide() {
-        mainMenuView.setVisible(false);
+        mainMenuView.removeComponents();
     }
 }

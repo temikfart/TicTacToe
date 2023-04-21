@@ -10,11 +10,14 @@ public class GameBoardView {
 
     public GameBoardView(StartWindow startWindow) {
         this.startWindow = startWindow;
-        this.startWindow.addComponent(title);
     }
 
-    public void setVisible(boolean b) {
-        title.setVisible(b);
+    public void addComponents() {
+        startWindow.addComponent(title);
+    }
+
+    public void removeComponents() {
+        startWindow.removeComponent(title);
     }
 
     public Label createTitle() {
