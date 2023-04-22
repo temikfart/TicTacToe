@@ -2,10 +2,11 @@ package tictactoe;
 
 import tictactoe.controllers.MainMenuController;
 import tictactoe.controllers.GameBoardController;
+import tictactoe.models.CellState;
+import tictactoe.models.GameResult;
 
 public class TicTacToe {
-    public static final int BOARD_WIDTH = 3;
-    public static final int BOARD_HEIGHT = 3;
+    public static final int BOARD_SIZE = 3;
     private static final StartWindow startWindow = new StartWindow();
     private static final MainMenuController mainMenuController = new MainMenuController(startWindow);
     private static final GameBoardController gameBoardController = new GameBoardController(startWindow);
@@ -29,6 +30,22 @@ public class TicTacToe {
 
     public static void startGame() {
         gameBoardController.startGame();
+    }
+
+    public static boolean move(int row, int col) {
+        return gameBoardController.move(row, col);
+    }
+
+    public static CellState nextMove() {
+        return gameBoardController.nextMove();
+    }
+
+    public static GameResult gameResult() {
+        return gameBoardController.gameResult();
+    }
+
+    public static void clearGameBoard() {
+        gameBoardController.clearGameBoard();
     }
 
     public static void endGame() {
