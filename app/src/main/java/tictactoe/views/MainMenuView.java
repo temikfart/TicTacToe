@@ -43,7 +43,7 @@ public class MainMenuView {
 
     private Button createStartButton() {
         Button button = new Button("Start");
-        button.addActionListener(e -> TicTacToe.startGame());
+        button.addActionListener(e -> TicTacToe.showSettings());
         button.setFont(buttonFont);
 
         return button;

@@ -130,7 +130,7 @@ public class GameBoardView {
     }
 
     private GridBagConstraints[][] createGameBoardButtonsConstraints() {
-        GridBagConstraints[][] constraints = new GridBagConstraints[3][3];
+        GridBagConstraints[][] constraints = new GridBagConstraints[TicTacToe.BOARD_SIZE][TicTacToe.BOARD_SIZE];
         for (int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
             GridBagConstraints[] constraintsRow = constraints[i];
             for (int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
@@ -170,7 +170,7 @@ public class GameBoardView {
 
     private GridBagConstraints createResetButtonConstraints() {
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 2;
+        constraints.gridx = TicTacToe.BOARD_SIZE - 1;
         constraints.gridy = TicTacToe.BOARD_SIZE + 1;
 
         return constraints;

@@ -8,15 +8,18 @@ import tictactoe.models.GameResult;
 import tictactoe.views.GameBoardView;
 
 public class GameBoardController {
-    private final GameBoardView gameBoardView;
-    private final GameBoardModel gameBoardModel = new GameBoardModel();
+    private final StartWindow startWindow;
+    private GameBoardView gameBoardView;
+    private GameBoardModel gameBoardModel;
 
     public GameBoardController(StartWindow startWindow) {
-        this.gameBoardView = new GameBoardView(startWindow);
+        this.startWindow = startWindow;
     }
 
     public void startGame() {
-        TicTacToe.hideMainMenu();
+        TicTacToe.hideSettings();
+        gameBoardView = new GameBoardView(startWindow);
+        gameBoardModel = new GameBoardModel();
         gameBoardView.addComponents();
     }
 
@@ -28,7 +31,7 @@ public class GameBoardController {
         return gameBoardModel.nextMove();
     }
 
-    public void clearGameBoard() {
+    private void clearGameBoard() {
         gameBoardView.clear();
         gameBoardModel.clear();
     }

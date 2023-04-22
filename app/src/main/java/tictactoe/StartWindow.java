@@ -6,10 +6,11 @@ import java.awt.event.WindowListener;
 
 public class StartWindow {
     private final Frame frame = new Frame("Tic Tac Toe");
-    private final int width = 500;
-    private final int height = 500;
+    private int width;
+    private int height;
 
     public StartWindow() {
+        updateSize();
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.addWindowListener(new WindowListener() {
@@ -66,11 +67,7 @@ public class StartWindow {
         frame.setSize(width, height);
     }
 
-    public int width() {
-        return frame.getWidth();
-    }
-
-    public int height() {
-        return frame.getHeight();
+    public void updateSize() {
+        width = height = (TicTacToe.BOARD_SIZE + 2) * 100;
     }
 }
