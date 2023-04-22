@@ -37,8 +37,12 @@ public class GameBoardController {
         return gameBoardModel.gameResult();
     }
 
-    public void endGame() {
+    public void resetGame() {
         clearGameBoard();
+    }
+
+    public void endGame() {
+        resetGame();
         gameBoardView.removeComponents();
         TicTacToe.showMainMenu();
     }

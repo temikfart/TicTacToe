@@ -26,9 +26,9 @@ public class GameBoardModel {
             return false;
 
         moveCounter++;
+        cell.changeState(nextMove);
         gameResult = checkGameResult(row, col);
 
-        cell.changeState(nextMove);
         if (nextMove == CellState.X)
             nextMove = CellState.O;
         else

@@ -48,6 +48,10 @@ public class TicTacToe {
         gameBoardController.clearGameBoard();
     }
 
+    public static void resetGame() {
+        gameBoardController.resetGame();
+    }
+
     public static void endGame() {
         gameBoardController.endGame();
     }
