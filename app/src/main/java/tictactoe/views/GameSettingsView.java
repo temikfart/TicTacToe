@@ -1,58 +1,57 @@
 package tictactoe.views;
 
-import tictactoe.StartWindow;
-import tictactoe.TicTacToe;
 import tictactoe.Utils;
+import tictactoe.controllers.MainController;
+import tictactoe.models.GameBoardModel;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class GameSettingsView {
-    private final StartWindow startWindow;
+    private final MainView mainView;
 
-    private final int MIN_SIZE = 3;
-    private final int MAX_SIZE = 5;
-    private final Font hintLabelFont = Utils.createBaseFont(Font.BOLD, 30);
-    private final Font buttonFont = Utils.createBaseFont(Font.BOLD, 30);
+    private final Label hintLabel;
+    private final Button[] changeSizeButtons;
 
-    private final Label hintLabel = createHintLabel();
-    private final Button[] changeSizeButtons = createChangeSizeButtons();
-
-    public GameSettingsView(StartWindow startWindow) {
-        this.startWindow = startWindow;
+    public GameSettingsView(MainView mainView) {
+        this.mainView = mainView;
+        this.hintLabel = createHintLabel();
+        this.changeSizeButtons = createChangeSizeButtons();
     }
 
     public void addComponents() {
-        startWindow.setLayout(new GridLayout(0, 1));
-        startWindow.addComponent(hintLabel);
+        mainView.setLayout(new GridLayout(0, 1));
+        mainView.addComponent(hintLabel);
         for (Button button : changeSizeButtons)
-            startWindow.addComponent(button);
+            mainView.addComponent(button);
     }
 
     public void removeComponents() {
-        startWindow.removeComponent(hintLabel);
+        mainView.removeComponent(hintLabel);
         for (Button button : changeSizeButtons)
-            startWindow.removeComponent(button);
+            mainView.removeComponent(button);
     }
 
     private Label createHintLabel() {
         Label hint = new Label("Choose Game Board Size");
         hint.setAlignment(Label.CENTER);
-        hint.setFont(hintLabelFont);
+        hint.setFont(Utils.createBaseFont(Font.BOLD, 30));
 
         return hint;
     }
 
     private Button[] createChangeSizeButtons() {
-        Button[] buttons = new Button[MAX_SIZE - MIN_SIZE + 1];
-        for (int i = MIN_SIZE; i <= MAX_SIZE; i++) {
+        int minSize = GameBoardModel.MIN_SIZE;
+        int maxSize = GameBoardModel.MAX_SIZE;
+        Button[] buttons = new Button[maxSize - minSize + 1];
+        for (int i = minSize; i <= maxSize; i++) {
             Button b = new Button(i + "x" + i);
-            b.setFont(buttonFont);
-            int newSize = i;
-            b.addActionListener(e -> {
-                TicTacToe.updateSize(newSize);
-                TicTacToe.startGame();
-            });
-            buttons[i - MIN_SIZE] = b;
+
+            b.setFont(Utils.createBaseFont(Font.BOLD, 30));
+            b.setActionCommand(ActionCommand.CHANGE_SIZE.toString());
+            b.addActionListener(mainView);
+
+            buttons[i - minSize] = b;
         }
 
         return buttons;

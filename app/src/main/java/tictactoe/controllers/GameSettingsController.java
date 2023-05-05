@@ -1,13 +1,13 @@
 package tictactoe.controllers;
 
-import tictactoe.StartWindow;
+import tictactoe.views.MainView;
 import tictactoe.views.GameSettingsView;
 
 public class GameSettingsController {
-    private GameSettingsView gameSettingsView;
+    private final GameSettingsView gameSettingsView;
 
-    public GameSettingsController(StartWindow startWindow) {
-        this.gameSettingsView = new GameSettingsView(startWindow);
+    public GameSettingsController(MainView mainView) {
+        this.gameSettingsView = new GameSettingsView(mainView);
     }
 
     public void show() {

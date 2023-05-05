@@ -1,26 +1,24 @@
 package tictactoe.controllers;
 
-import tictactoe.StartWindow;
-import tictactoe.TicTacToe;
+import tictactoe.views.MainView;
 import tictactoe.models.CellState;
 import tictactoe.models.GameBoardModel;
 import tictactoe.models.GameResult;
 import tictactoe.views.GameBoardView;
 
 public class GameBoardController {
-    private final StartWindow startWindow;
-    private GameBoardView gameBoardView;
-    private GameBoardModel gameBoardModel;
+    private final GameBoardView gameBoardView;
+    private final GameBoardModel gameBoardModel;
 
-    public GameBoardController(StartWindow startWindow) {
-        this.startWindow = startWindow;
+    public GameBoardController(MainView mainView) {
+        this.gameBoardView = new GameBoardView(mainView);
+        this.gameBoardModel = new GameBoardModel();
     }
 
     public void startGame() {
-        TicTacToe.hideSettings();
-        gameBoardView = new GameBoardView(startWindow);
-        gameBoardModel = new GameBoardModel();
-        gameBoardView.addComponents();
+        MainController.gameSettingsController.hide();
+        gameBoardModel.reset();
+        gameBoardView.reset();
     }
 
     public boolean move(int row, int col) {
@@ -30,23 +28,13 @@ public class GameBoardController {
     public CellState nextMove() {
         return gameBoardModel.nextMove();
     }
-
-    private void clearGameBoard() {
-        gameBoardView.clear();
-        gameBoardModel.clear();
-    }
-
     public GameResult gameResult() {
         return gameBoardModel.gameResult();
     }
 
-    public void resetGame() {
-        clearGameBoard();
-    }
-
     public void endGame() {
-        resetGame();
+        gameBoardModel.reset();
         gameBoardView.removeComponents();
-        TicTacToe.showMainMenu();
+        MainController.mainMenuController.show();
     }
 }

@@ -1,58 +1,65 @@
 package tictactoe.views;
 
-import tictactoe.StartWindow;
 import tictactoe.TicTacToe;
 import tictactoe.Utils;
+import tictactoe.controllers.MainController;
+import tictactoe.models.GameBoardModel;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class MainMenuView {
-    private final StartWindow startWindow;
+    private final MainView mainView;
 
-    private final Font welcomeLabelFont = Utils.createBaseFont(Font.BOLD, 50);
+    private final Label welcomeLabel;
+    private final Button startButton;
+    private final Button exitButton;
+
     private final Font buttonFont = Utils.createBaseFont(Font.BOLD, 30);
 
-    private final Label welcomeLabel = createWelcomeLabel();
-    private final Button startButton = createStartButton();
-    private final Button exitButton = createExitButton();
-
-    public MainMenuView(StartWindow startWindow) {
-        this.startWindow = startWindow;
+    public MainMenuView(MainView mainView) {
+        this.mainView = mainView;
+        this.welcomeLabel = createWelcomeLabel();
+        this.startButton = createStartButton();
+        this.exitButton = createExitButton();
     }
 
     public void addComponents() {
-        startWindow.setLayout(new GridLayout(0, 1));
-        startWindow.addComponent(welcomeLabel);
-        startWindow.addComponent(startButton);
-        startWindow.addComponent(exitButton);
+        mainView.setLayout(new GridLayout(0, 1));
+        mainView.addComponent(welcomeLabel);
+        mainView.addComponent(startButton);
+        mainView.addComponent(exitButton);
+        mainView.updateSize(GameBoardModel.MIN_SIZE);
     }
 
     public void removeComponents() {
-        startWindow.removeComponent(welcomeLabel);
-        startWindow.removeComponent(startButton);
-        startWindow.removeComponent(exitButton);
+        mainView.removeComponent(welcomeLabel);
+        mainView.removeComponent(startButton);
+        mainView.removeComponent(exitButton);
     }
 
     private Label createWelcomeLabel() {
         Label welcomeLabel = new Label("Tic Tac Toe");
         welcomeLabel.setAlignment(Label.CENTER);
-        welcomeLabel.setFont(welcomeLabelFont);
+        welcomeLabel.setFont(Utils.createBaseFont(Font.BOLD, 50));
 
         return welcomeLabel;
     }
 
     private Button createStartButton() {
         Button button = new Button("Start");
-        button.addActionListener(e -> TicTacToe.showSettings());
         button.setFont(buttonFont);
+        button.setActionCommand(ActionCommand.START_GAME.toString());
+        button.addActionListener(mainView);
 
         return button;
     }
 
     private Button createExitButton() {
         Button button = new Button("Exit");
-        button.addActionListener(e -> TicTacToe.exit());
         button.setFont(buttonFont);
+        button.setActionCommand(ActionCommand.EXIT.toString());
+        button.addActionListener(mainView);
 
         return button;
     }

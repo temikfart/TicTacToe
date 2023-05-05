@@ -1,127 +1,108 @@
 package tictactoe.views;
 
-import tictactoe.StartWindow;
-import tictactoe.TicTacToe;
 import tictactoe.Utils;
-import tictactoe.models.CellState;
-import tictactoe.models.GameResult;
+import tictactoe.models.GameBoardModel;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GameBoardView {
-    private final StartWindow startWindow;
-    private final GridBagLayout layout = new GridBagLayout();
+    private final MainView mainView;
 
-    private final Font titleFont = Utils.createBaseFont(Font.BOLD, 30);
-    private final Font returnButtonFont = Utils.createBaseFont(Font.BOLD, 17);
-    private final Font resetButtonFont = returnButtonFont;
-    private final Font gameBoardButtonFont = Utils.createBaseFont(Font.BOLD, 50);
-    private final int buttonWidth = 100;
-    private final int buttonHeight = 100;
+    private final Label title;
+    private Button[][] gameBoardButtons;
+    private final Button returnButton;
+    private final Button resetButton;
 
-    private final Label title = createTitle();
-    private final GridBagConstraints titleGridContaints = createTitleConstraints();
-    private final Button[][] gameBoardButtons = createGameBoardButtons();
-    private final GridBagConstraints[][] gameBoardButtonsConstraints = createGameBoardButtonsConstraints();
-    private final Button returnButton = createReturnButton();
-    private final GridBagConstraints returnButtonConstraints = createReturnButtonConstraints();
+    private GridBagConstraints titleGridConstraints;
+    private GridBagConstraints[][] gameBoardButtonsConstraints;
+    private GridBagConstraints returnButtonConstraints;
+    private GridBagConstraints resetButtonConstraints;
 
-    private final Button resetButton = createResetButton();
-    private final GridBagConstraints resetButtonConstraints = createResetButtonConstraints();
+    private final Font actionButtonsFont = Utils.createBaseFont(Font.BOLD, 17);
 
-    public GameBoardView(StartWindow startWindow) {
-        this.startWindow = startWindow;
+    public GameBoardView(MainView mainView) {
+        this.mainView = mainView;
+
+        this.title = createTitle();
+        this.gameBoardButtons = createGameBoardButtons();
+        this.returnButton = createReturnButton();
+        this.resetButton = createResetButton();
+
+        createConstraints();
+    }
+
+    public void reset() {
+        removeComponents();
+        if (gameBoardButtons.length == GameBoardModel.BOARD_SIZE) {
+            for (Button[] buttonsRow : gameBoardButtons)
+                for (Button b : buttonsRow)
+                    b.setLabel("");
+        } else {
+            gameBoardButtons = createGameBoardButtons();
+            createConstraints();
+        }
+        addComponents();
     }
 
     public void addComponents() {
-        startWindow.setLayout(layout);
-        addConstraints();
-        startWindow.addComponent(title);
+        GridBagLayout layout = new GridBagLayout();
+        mainView.setLayout(layout);
+
+        layout.setConstraints(title, titleGridConstraints);
+        for (int i = 0; i < GameBoardModel.BOARD_SIZE; i++)
+            for (int j = 0; j < GameBoardModel.BOARD_SIZE; j++)
+                ((GridBagLayout) mainView.getLayout()).setConstraints(gameBoardButtons[i][j],
+                        gameBoardButtonsConstraints[i][j]);
+        layout.setConstraints(returnButton, returnButtonConstraints);
+        layout.setConstraints(resetButton, resetButtonConstraints);
+
+        mainView.addComponent(title);
         for (Button[] buttonsRow : gameBoardButtons)
             for (Button b : buttonsRow)
-                startWindow.addComponent(b);
-        startWindow.addComponent(returnButton);
-        startWindow.addComponent(resetButton);
+                mainView.addComponent(b);
+        mainView.addComponent(returnButton);
+        mainView.addComponent(resetButton);
+    }
+
+    private void createConstraints() {
+        this.titleGridConstraints = createTitleConstraints();
+        this.gameBoardButtonsConstraints = createGameBoardButtonsConstraints();
+        this.returnButtonConstraints = createReturnButtonConstraints();
+        this.resetButtonConstraints = createResetButtonConstraints();
     }
 
     public void removeComponents() {
-        startWindow.removeComponent(title);
+        mainView.removeComponent(title);
         for (Button[] buttonsRow : gameBoardButtons)
             for (Button b : buttonsRow)
-                startWindow.removeComponent(b);
-        startWindow.removeComponent(returnButton);
-        startWindow.removeComponent(resetButton);
-    }
-
-    public void clear() {
-        title.setText("Tic Tac Toe");
-        for (Button[] buttonsRow : gameBoardButtons)
-            for (Button button : buttonsRow)
-                button.setLabel("");
-    }
-
-    private void addConstraints() {
-        layout.setConstraints(title, titleGridContaints);
-        for (int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
-            for (int j = 0; j < TicTacToe.BOARD_SIZE; j++)
-                layout.setConstraints(gameBoardButtons[i][j], gameBoardButtonsConstraints[i][j]);
-        }
-        layout.setConstraints(returnButton, returnButtonConstraints);
-        layout.setConstraints(resetButton, resetButtonConstraints);
+                mainView.removeComponent(b);
+        mainView.removeComponent(returnButton);
+        mainView.removeComponent(resetButton);
     }
 
     private Label createTitle() {
         Label title = new Label("Tic Tac Toe");
         title.setAlignment(Label.CENTER);
-        title.setFont(titleFont);
+        title.setFont(Utils.createBaseFont(Font.BOLD, 30));
 
         return title;
     }
 
-    private GridBagConstraints createTitleConstraints() {
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridwidth = TicTacToe.BOARD_SIZE;
-
-        return constraints;
-    }
-
     private Button[][] createGameBoardButtons() {
-        Button[][] buttons = new Button[TicTacToe.BOARD_SIZE][TicTacToe.BOARD_SIZE];
-        for (int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
+        Button[][] buttons = new Button[GameBoardModel.BOARD_SIZE][GameBoardModel.BOARD_SIZE];
+        for (int i = 0; i < GameBoardModel.BOARD_SIZE; i++) {
             Button[] buttonsRow = buttons[i];
-            for (int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
-                Button b = new Button();
+            for (int j = 0; j < GameBoardModel.BOARD_SIZE; j++) {
+                Button b = new Button("");
+
                 b.setBackground(Color.GRAY);
-                b.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-                b.setFont(gameBoardButtonFont);
+                b.setFont(Utils.createBaseFont(Font.BOLD, 50));
+                b.setPreferredSize(new Dimension(100, 100));
 
-                int row = i;
-                int col = j;
-                b.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (TicTacToe.gameResult() != GameResult.RESUME) return;
+                b.setName(i + "," + j);
+                b.setActionCommand(ActionCommand.MOVE.toString());
+                b.addActionListener(mainView);
 
-                        boolean moved = TicTacToe.move(row, col);
-                        if (!moved) return;
-                        b.setLabel(TicTacToe.nextMove() == CellState.X ? "O" : "X");
-
-                        GameResult gameResult = TicTacToe.gameResult();
-                        if (gameResult == GameResult.TIE) {
-                            updateWinLabel("TIE!");
-                        } else if (gameResult == GameResult.WIN) {
-                            String winner = TicTacToe.nextMove() == CellState.X ? "O" : "X";
-                            updateWinLabel(winner + " won!");
-                        }
-                    }
-
-                    private void updateWinLabel(String text) {
-                        title.setText(text);
-                        startWindow.pack();
-                    }
-                });
                 buttonsRow[j] = b;
             }
         }
@@ -129,11 +110,37 @@ public class GameBoardView {
         return buttons;
     }
 
+    private Button createReturnButton() {
+        Button button = new Button("Return");
+        button.setFont(actionButtonsFont);
+        button.setActionCommand(ActionCommand.RETURN.toString());
+        button.addActionListener(mainView);
+
+        return button;
+    }
+
+    private Button createResetButton() {
+        Button button = new Button("Reset");
+        button.setFont(actionButtonsFont);
+        button.setActionCommand(ActionCommand.RESET.toString());
+        button.addActionListener(mainView);
+
+        return button;
+    }
+
+    private GridBagConstraints createTitleConstraints() {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridwidth = GameBoardModel.BOARD_SIZE;
+
+        return constraints;
+    }
+
     private GridBagConstraints[][] createGameBoardButtonsConstraints() {
-        GridBagConstraints[][] constraints = new GridBagConstraints[TicTacToe.BOARD_SIZE][TicTacToe.BOARD_SIZE];
-        for (int i = 0; i < TicTacToe.BOARD_SIZE; i++) {
+        int boardSize = GameBoardModel.BOARD_SIZE;
+        GridBagConstraints[][] constraints = new GridBagConstraints[boardSize][boardSize];
+        for (int i = 0; i < boardSize; i++) {
             GridBagConstraints[] constraintsRow = constraints[i];
-            for (int j = 0; j < TicTacToe.BOARD_SIZE; j++) {
+            for (int j = 0; j < boardSize; j++) {
                 GridBagConstraints c = new GridBagConstraints();
                 c.gridx = j;
                 c.gridy = i + 1;
@@ -144,34 +151,18 @@ public class GameBoardView {
         return constraints;
     }
 
-    private Button createReturnButton() {
-        Button button = new Button("Return");
-        button.addActionListener(e -> TicTacToe.endGame());
-        button.setFont(returnButtonFont);
-
-        return button;
-    }
-
     private GridBagConstraints createReturnButtonConstraints() {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
-        constraints.gridy = TicTacToe.BOARD_SIZE + 1;
+        constraints.gridy = GameBoardModel.BOARD_SIZE + 1;
 
         return constraints;
     }
 
-    private Button createResetButton() {
-        Button button = new Button("Reset");
-        button.addActionListener(e -> TicTacToe.resetGame());
-        button.setFont(resetButtonFont);
-
-        return button;
-    }
-
     private GridBagConstraints createResetButtonConstraints() {
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = TicTacToe.BOARD_SIZE - 1;
-        constraints.gridy = TicTacToe.BOARD_SIZE + 1;
+        constraints.gridx = GameBoardModel.BOARD_SIZE - 1;
+        constraints.gridy = GameBoardModel.BOARD_SIZE + 1;
 
         return constraints;
     }

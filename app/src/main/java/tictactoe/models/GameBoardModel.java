@@ -1,8 +1,10 @@
 package tictactoe.models;
 
-import tictactoe.TicTacToe;
-
 public class GameBoardModel {
+    public static final int MIN_SIZE = 3;
+    public static final int MAX_SIZE = 5;
+    public static int BOARD_SIZE = MIN_SIZE;
+
     private class Cell {
         private CellState state = CellState.EMPTY;
 
@@ -15,7 +17,7 @@ public class GameBoardModel {
         }
     }
 
-    private final Cell[][] gameBoard = createGameBoard();
+    private Cell[][] gameBoard = createGameBoard(BOARD_SIZE);
     private GameResult gameResult = GameResult.RESUME;
     private CellState nextMove = CellState.X;
     private int moveCounter = 0;
@@ -45,19 +47,17 @@ public class GameBoardModel {
         return nextMove;
     }
 
-    public void clear() {
+    public void reset() {
+        gameBoard = createGameBoard(BOARD_SIZE);
         gameResult = GameResult.RESUME;
         nextMove = CellState.X;
         moveCounter = 0;
-        for (Cell[] cellRow : gameBoard)
-            for (Cell cell : cellRow)
-                cell.changeState(CellState.EMPTY);
     }
 
     private GameResult checkGameResult(int row, int col) {
         if (isWin(row, col))
             return GameResult.WIN;
-        if (moveCounter == TicTacToe.BOARD_SIZE * TicTacToe.BOARD_SIZE)
+        if (moveCounter == BOARD_SIZE * BOARD_SIZE)
             return GameResult.TIE;
         return GameResult.RESUME;
     }
@@ -67,7 +67,7 @@ public class GameBoardModel {
         int countCol = 0;
         int countLDiag = 0;
         int countRDiag = 0;
-        int size = TicTacToe.BOARD_SIZE;
+        int size = BOARD_SIZE;
 
         for (int i = 0; i < size; i++) {
             if (gameBoard[row][i].state() == nextMove)
@@ -83,10 +83,10 @@ public class GameBoardModel {
         return countRow == size || countCol == size || countLDiag == size || countRDiag == size;
     }
 
-    private Cell[][] createGameBoard() {
-        Cell[][] board = new Cell[TicTacToe.BOARD_SIZE][TicTacToe.BOARD_SIZE];
+    private Cell[][] createGameBoard(int size) {
+        Cell[][] board = new Cell[size][size];
         for (Cell[] cellRow : board)
-            for (int j = 0; j < TicTacToe.BOARD_SIZE; j++)
+            for (int j = 0; j < size; j++)
                 cellRow[j] = new Cell();
 
         return board;

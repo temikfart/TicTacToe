@@ -1,13 +1,13 @@
 package tictactoe.controllers;
 
-import tictactoe.StartWindow;
+import tictactoe.views.MainView;
 import tictactoe.views.MainMenuView;
 
 public class MainMenuController {
     private final MainMenuView mainMenuView;
 
-    public MainMenuController(StartWindow startWindow) {
-        this.mainMenuView = new MainMenuView(startWindow);
+    public MainMenuController(MainView mainView) {
+        this.mainMenuView = new MainMenuView(mainView);
     }
 
     public void show() {
