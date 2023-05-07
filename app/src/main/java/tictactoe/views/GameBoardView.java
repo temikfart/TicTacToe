@@ -11,11 +11,13 @@ public class GameBoardView {
     private final Label title;
     private Button[][] gameBoardButtons;
     private final Button returnButton;
+    private final Button historyButton;
     private final Button resetButton;
 
     private GridBagConstraints titleGridConstraints;
     private GridBagConstraints[][] gameBoardButtonsConstraints;
     private GridBagConstraints returnButtonConstraints;
+    private GridBagConstraints historyButtonConstraints;
     private GridBagConstraints resetButtonConstraints;
 
     private final Font actionButtonsFont = Utils.createBaseFont(Font.BOLD, 17);
@@ -26,6 +28,7 @@ public class GameBoardView {
         this.title = createTitle();
         this.gameBoardButtons = createGameBoardButtons();
         this.returnButton = createReturnButton();
+        this.historyButton = createHistoryButton();
         this.resetButton = createResetButton();
 
         createConstraints();
@@ -54,6 +57,7 @@ public class GameBoardView {
                 ((GridBagLayout) mainView.getLayout()).setConstraints(gameBoardButtons[i][j],
                         gameBoardButtonsConstraints[i][j]);
         layout.setConstraints(returnButton, returnButtonConstraints);
+        layout.setConstraints(historyButton, historyButtonConstraints);
         layout.setConstraints(resetButton, resetButtonConstraints);
 
         mainView.addComponent(title);
@@ -61,6 +65,7 @@ public class GameBoardView {
             for (Button b : buttonsRow)
                 mainView.addComponent(b);
         mainView.addComponent(returnButton);
+        mainView.addComponent(historyButton);
         mainView.addComponent(resetButton);
     }
 
@@ -68,6 +73,7 @@ public class GameBoardView {
         this.titleGridConstraints = createTitleConstraints();
         this.gameBoardButtonsConstraints = createGameBoardButtonsConstraints();
         this.returnButtonConstraints = createReturnButtonConstraints();
+        this.historyButtonConstraints = createHistoryButtonConstraints();
         this.resetButtonConstraints = createResetButtonConstraints();
     }
 
@@ -77,6 +83,7 @@ public class GameBoardView {
             for (Button b : buttonsRow)
                 mainView.removeComponent(b);
         mainView.removeComponent(returnButton);
+        mainView.removeComponent(historyButton);
         mainView.removeComponent(resetButton);
     }
 
@@ -119,6 +126,15 @@ public class GameBoardView {
         return button;
     }
 
+    private Button createHistoryButton() {
+        Button button = new Button("History");
+        button.setFont(actionButtonsFont);
+        button.setActionCommand(ActionCommand.SHOW_HISTORY.toString());
+        button.addActionListener(mainView);
+
+        return button;
+    }
+
     private Button createResetButton() {
         Button button = new Button("Reset");
         button.setFont(actionButtonsFont);
@@ -154,6 +170,14 @@ public class GameBoardView {
     private GridBagConstraints createReturnButtonConstraints() {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
+        constraints.gridy = GameBoardModel.BOARD_SIZE + 1;
+
+        return constraints;
+    }
+
+    private GridBagConstraints createHistoryButtonConstraints() {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 1;
         constraints.gridy = GameBoardModel.BOARD_SIZE + 1;
 
         return constraints;

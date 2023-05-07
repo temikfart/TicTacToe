@@ -5,6 +5,7 @@ public enum ActionCommand {
     EXIT,
     CHANGE_SIZE,
     RESET,
+    SHOW_HISTORY,
     RETURN,
     MOVE,
     NONE;

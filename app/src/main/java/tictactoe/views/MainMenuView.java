@@ -13,6 +13,7 @@ public class MainMenuView {
 
     private final Label welcomeLabel;
     private final Button startButton;
+    private final Button historyButton;
     private final Button exitButton;
 
     private final Font buttonFont = Utils.createBaseFont(Font.BOLD, 30);
@@ -21,6 +22,7 @@ public class MainMenuView {
         this.mainView = mainView;
         this.welcomeLabel = createWelcomeLabel();
         this.startButton = createStartButton();
+        this.historyButton = createHistoryButton();
         this.exitButton = createExitButton();
     }
 
@@ -28,6 +30,7 @@ public class MainMenuView {
         mainView.setLayout(new GridLayout(0, 1));
         mainView.addComponent(welcomeLabel);
         mainView.addComponent(startButton);
+        mainView.addComponent(historyButton);
         mainView.addComponent(exitButton);
         mainView.updateSize(GameBoardModel.MIN_SIZE);
     }
@@ -35,6 +38,7 @@ public class MainMenuView {
     public void removeComponents() {
         mainView.removeComponent(welcomeLabel);
         mainView.removeComponent(startButton);
+        mainView.removeComponent(historyButton);
         mainView.removeComponent(exitButton);
     }
 
@@ -50,6 +54,15 @@ public class MainMenuView {
         Button button = new Button("Start");
         button.setFont(buttonFont);
         button.setActionCommand(ActionCommand.START_GAME.toString());
+        button.addActionListener(mainView);
+
+        return button;
+    }
+
+    private Button createHistoryButton() {
+        Button button = new Button("History");
+        button.setFont(buttonFont);
+        button.setActionCommand(ActionCommand.SHOW_HISTORY.toString());
         button.addActionListener(mainView);
 
         return button;

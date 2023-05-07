@@ -63,6 +63,7 @@ public class MainView extends Frame implements WindowListener, ActionListener {
                 MainController.gameSettingsController.show();
             }
             case RETURN -> MainController.gameBoardController.endGame();
+            case SHOW_HISTORY -> MainController.gameHistoryController.show();
             case RESET -> MainController.gameBoardController.startGame();
             case CHANGE_SIZE -> {
                 updateSize(Character.getNumericValue(button.getLabel().charAt(0)));
@@ -79,36 +80,52 @@ public class MainView extends Frame implements WindowListener, ActionListener {
 
                 GameResult gameResult = MainController.gameBoardController.gameResult();
                 if (gameResult == GameResult.TIE) {
-                    createGameResultAlert("TIE!");
+                    String text = "TIE!";
+                    showGameResultAlert(text);
+                    MainController.gameHistoryController.saveGaveResult(text);
                 } else if (gameResult == GameResult.WIN) {
                     String winner = MainController.gameBoardController.nextMove() == CellState.X ? "O" : "X";
-                    createGameResultAlert(winner + " won!");
+                    String text = winner + " won!";
+                    showGameResultAlert(text);
+                    MainController.gameHistoryController.saveGaveResult(text);
                 }
             }
         }
-        repaintWindow();
+        repaint();
     }
 
-    private void createGameResultAlert(String text) {
-        Frame frame = new Frame("Game Result");
-        frame.setLayout(new GridLayout(2, 1));
-        frame.setSize(300, 200);
+    private void showGameResultAlert(String text) {
+        Alert alert = new Alert();
+        alert.setTitle("Game Result");
+        alert.setLayout(new GridLayout(2, 1));
+        alert.setSize(300, 200);
 
-        Label result = new Label(text);
-        result.setPreferredSize(new Dimension(100, 30));
-        result.setFont(Utils.createBaseFont(Font.PLAIN, 30));
-        result.setAlignment(Label.CENTER);
-        frame.add(result);
+        alert.add(createGameResultLabel(text));
+        Button okButton = createOkButton();
+        okButton.addActionListener(e -> alert.dispose());
+        alert.add(okButton);
 
-        Button okButton = new Button("OK");
-        okButton.setPreferredSize(new Dimension(40, 15));
-        okButton.setMaximumSize(new Dimension(40, 15));
-        okButton.setFont(Utils.createBaseFont(Font.BOLD, 20));
-        okButton.addActionListener(e -> frame.dispose());
-        frame.add(okButton);
+        alert.addWindowListener(alert);
+        alert.setLocationRelativeTo(null);
+        alert.setVisible(true);
+    }
 
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    private Button createOkButton() {
+        Button button = new Button("OK");
+        button.setPreferredSize(new Dimension(40, 15));
+        button.setMaximumSize(new Dimension(40, 15));
+        button.setFont(Utils.createBaseFont(Font.BOLD, 20));
+
+        return button;
+    }
+
+    private Label createGameResultLabel(String text) {
+        Label label = new Label(text);
+        label.setPreferredSize(new Dimension(100, 30));
+        label.setFont(Utils.createBaseFont(Font.PLAIN, 30));
+        label.setAlignment(Label.CENTER);
+
+        return label;
     }
 
     @Override
@@ -129,8 +146,12 @@ public class MainView extends Frame implements WindowListener, ActionListener {
     public void windowDeiconified(WindowEvent e) {}
 
     @Override
-    public void windowActivated(WindowEvent e) {}
+    public void windowActivated(WindowEvent e) {
+        this.setEnabled(true);
+    }
 
     @Override
-    public void windowDeactivated(WindowEvent e) {}
+    public void windowDeactivated(WindowEvent e) {
+        this.setEnabled(false);
+    }
 }
