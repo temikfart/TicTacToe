@@ -1,10 +1,8 @@
 package tictactoe.views;
 
 import tictactoe.Utils;
-import tictactoe.controllers.MainController;
 import tictactoe.models.GameBoardModel;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class GameSettingsView {

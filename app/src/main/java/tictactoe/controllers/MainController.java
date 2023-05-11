@@ -2,8 +2,6 @@ package tictactoe.controllers;
 
 import tictactoe.views.MainView;
 
-import java.io.IOException;
-
 public class MainController {
     private static final MainView mainView = new MainView();
     public static final MainMenuController mainMenuController = new MainMenuController(mainView);

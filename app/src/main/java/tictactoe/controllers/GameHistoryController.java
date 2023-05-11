@@ -2,13 +2,12 @@ package tictactoe.controllers;
 
 import tictactoe.models.GameHistoryModel;
 import tictactoe.views.GameHistoryView;
-import tictactoe.views.MainView;
 
 import java.io.IOException;
 
 public class GameHistoryController {
-    private GameHistoryView gameHistoryView;
-    private GameHistoryModel gameHistoryModel;
+    private final GameHistoryView gameHistoryView;
+    private final GameHistoryModel gameHistoryModel;
 
     public GameHistoryController() {
         try {
